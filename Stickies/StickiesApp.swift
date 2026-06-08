@@ -11,7 +11,10 @@ import SwiftUI
 struct StickiesApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                MainScreen()
+            }
         }
+        .windowResizability(.contentSize)
     }
 }

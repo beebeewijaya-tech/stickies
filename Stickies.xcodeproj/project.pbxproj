@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C807AE882FD6856C00168CEF /* RichTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = C807AE872FD6856C00168CEF /* RichTextKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		C807AE6C2FD5A05200168CEF /* Stickies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stickies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C807AE882FD6856C00168CEF /* RichTextKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = Stickies;
 			packageProductDependencies = (
+				C807AE872FD6856C00168CEF /* RichTextKit */,
 			);
 			productName = Stickies;
 			productReference = C807AE6C2FD5A05200168CEF /* Stickies.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = C807AE632FD5A05200168CEF;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C807AE862FD6856C00168CEF /* XCRemoteSwiftPackageReference "RichTextKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C807AE6D2FD5A05200168CEF /* Products */;
 			projectDirPath = "";
@@ -331,6 +340,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C807AE862FD6856C00168CEF /* XCRemoteSwiftPackageReference "RichTextKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielsaidi/RichTextKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C807AE872FD6856C00168CEF /* RichTextKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C807AE862FD6856C00168CEF /* XCRemoteSwiftPackageReference "RichTextKit" */;
+			productName = RichTextKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C807AE642FD5A05200168CEF /* Project object */;
 }
