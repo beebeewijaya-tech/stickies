@@ -18,6 +18,7 @@ struct MainScreen: View {
     
     @State private var isBold = false
     @State private var isItalic = false
+    @State private var textEditorView: NSTextView?
 
     
     func updateTextEditorColor(t: Any) {
@@ -26,6 +27,7 @@ struct MainScreen: View {
     }
     
     var body: some View {
+        
         VStack {
             HStack {
                 AppEditorStyleButton(label: "B", isActive: isBold) {
@@ -35,7 +37,7 @@ struct MainScreen: View {
 
                 AppEditorStyleButton(label: "I", isActive: isItalic) {
                     isItalic.toggle()
-                    context.toggleStyle(.bold)
+                    context.toggleStyle(.italic)
                 }
             }
             .padding(.vertical, 4)
@@ -44,10 +46,13 @@ struct MainScreen: View {
             .background(Color("Dark").opacity(0.4))
             .clipShape(RoundedRectangle(cornerRadius: 8))
             
-            
-            RichTextEditor(text: $note, context: context) { t in
-                updateTextEditorColor(t: t)
-            }
+                
+                RichTextEditor(text: $note, context: context) { t in
+                    updateTextEditorColor(t: t)
+                    Task {
+                        textEditorView = t as? NSTextView
+                    }
+                }
                 .focusedValue(\.richTextContext, context)
 
             Spacer()
@@ -82,7 +87,7 @@ struct MainScreen: View {
         .navigationTitle("")
         .frame(width: 400, height: 300)
         .onChange(of: colorState) { oldValue, newValue in
-            
+            updateTextEditorColor(t: textEditorView as Any)
         }
     }
 }
@@ -90,5 +95,5 @@ struct MainScreen: View {
 
 #Preview {
     MainScreen()
-        .frame(width: 400, height: 300)
+        .frame(width: 300, height: 300)
 }
