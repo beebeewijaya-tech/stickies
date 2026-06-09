@@ -25,10 +25,20 @@ struct MainScreen: View {
                     richTextViewModel.isItalic.toggle()
                     context.toggleStyle(.italic)
                 }
+                
+                AppEditorStyleButton(label: "U", isActive: richTextViewModel.isUnderline) {
+                    richTextViewModel.isUnderline.toggle()
+                    context.toggleStyle(.underlined)
+                }
+                
+                AppEditorStyleButton(label: "S", isActive: richTextViewModel.isStrikeThrough) {
+                    richTextViewModel.isStrikeThrough.toggle()
+                    context.toggleStyle(.strikethrough)
+                }
             }
             .padding(.vertical, 4)
             .padding(.horizontal, 8)
-            .frame(width: 100)
+            .frame(minWidth: 100)
             .background(Color("Dark").opacity(0.4))
             .clipShape(RoundedRectangle(cornerRadius: 8))
             

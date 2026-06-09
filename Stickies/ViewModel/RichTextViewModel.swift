@@ -18,6 +18,9 @@ final class RichTextViewModel {
     
     var isBold = false
     var isItalic = false
+    var isUnderline = false
+    var isStrikeThrough = false
+
     var textEditorView: NSTextView?
 
     
