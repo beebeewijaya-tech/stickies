@@ -9,34 +9,20 @@ import SwiftUI
 import RichTextKit
 
 struct MainScreen: View {
-    @State private var colorState: ColorState = .yellow
-    @State private var note = NSAttributedString(
-        string: "Type here...",
-    )
+    @State private var colorViewModel = ColorViewModel()
+    @State private var richTextViewModel = RichTextViewModel()
     @StateObject private var context = RichTextContext()
-    private var colors: [ColorState] = [.yellow, .red, .purple, .green, .orange]
-    
-    @State private var isBold = false
-    @State private var isItalic = false
-    @State private var textEditorView: NSTextView?
 
-    
-    func updateTextEditorColor(t: Any) {
-        guard let textView = t as? NSTextView else { return }
-        textView.backgroundColor = NSColor(colorState.backgroundColor)
-    }
-    
     var body: some View {
-        
         VStack {
             HStack {
-                AppEditorStyleButton(label: "B", isActive: isBold) {
-                    isBold.toggle()
+                AppEditorStyleButton(label: "B", isActive: richTextViewModel.isBold) {
+                    richTextViewModel.isBold.toggle()
                     context.toggleStyle(.bold)
                 }
 
-                AppEditorStyleButton(label: "I", isActive: isItalic) {
-                    isItalic.toggle()
+                AppEditorStyleButton(label: "I", isActive: richTextViewModel.isItalic) {
+                    richTextViewModel.isItalic.toggle()
                     context.toggleStyle(.italic)
                 }
             }
@@ -47,10 +33,10 @@ struct MainScreen: View {
             .clipShape(RoundedRectangle(cornerRadius: 8))
             
                 
-                RichTextEditor(text: $note, context: context) { t in
-                    updateTextEditorColor(t: t)
+                RichTextEditor(text: $richTextViewModel.note, context: context) { t in
+                    colorViewModel.updateTextEditorColor(t: t)
                     Task {
-                        textEditorView = t as? NSTextView
+                        richTextViewModel.textEditorView = t as? NSTextView
                     }
                 }
                 .focusedValue(\.richTextContext, context)
@@ -59,22 +45,22 @@ struct MainScreen: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(colorState.backgroundColor))
-        .toolbarBackground(colorState.backgroundColor, for: .windowToolbar)
+        .background(Color(colorViewModel.getBackgroundColor()))
+        .toolbarBackground(colorViewModel.getBackgroundColor(), for: .windowToolbar)
         .toolbarColorScheme(.dark, for: .windowToolbar)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 HStack {
-                    ForEach(colors.indices, id: \.self) { id in
+                    ForEach(colorViewModel.colors.indices, id: \.self) { id in
                         Button {
-                            colorState = colors[id]
+                            colorViewModel.setColor(id: id)
                         } label: {
                             Circle()
-                                .fill(colors[id].backgroundColor)
+                                .fill(colorViewModel.colors[id].backgroundColor)
                                 .frame(width: 12, height: 12)
                                 .overlay(
                                     Circle()
-                                        .stroke(style: StrokeStyle(lineWidth: colorState == colors[id] ? 2 : 0))
+                                        .stroke(style: StrokeStyle(lineWidth: colorViewModel.checkColorMatch(currentColor: colorViewModel.colors[id]) ? 2 : 0))
                                         .fill(.white)
                                 )
                         }
@@ -86,8 +72,8 @@ struct MainScreen: View {
         }
         .navigationTitle("")
         .frame(width: 400, height: 300)
-        .onChange(of: colorState) { oldValue, newValue in
-            updateTextEditorColor(t: textEditorView as Any)
+        .onChange(of: colorViewModel.colorState) { oldValue, newValue in
+            colorViewModel.updateTextEditorColor(t: richTextViewModel.textEditorView as Any)
         }
     }
 }
